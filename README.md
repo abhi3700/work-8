@@ -22,6 +22,7 @@ pywin32
 import win32com.client
 import os
 import pandas as pd
+from input import *
 ```
 * Download mail attachments for subject (== "test")
 ```py
@@ -31,13 +32,12 @@ messages = inbox.Items
 message = messages.GetFirst()
 subject = message.Subject
 
-# path of directory where attached files are to be saved locally
-get_path = 'I:\\github_repos\\work-8\\download_mail'
+
 # print(len(messages))      # length of the messages in "Inbox" folder
 
 # Loop in all the Inbox messages
 for m in messages:
-    if m.Subject == "test":     # check if the subject == "test"
+    if m.Subject == mail_sub:     # check if the subject == "test"
 
         # print (message)
         attachments = message.Attachments
@@ -54,17 +54,17 @@ for m in messages:
 * Traverse in `download_mail` folder, fetch into `df_attachments` list, Define `df1` & `df2` 
 ```py
 df_attachments = []
-for dirname, dirpath, files in os.walk("./download_mail/"):
+for dirname, dirpath, files in os.walk(download_mail_dir):
     for file in files:
         # print(file)
-        df_attachments.append(pd.ExcelFile("./download_mail/" + file).parse(0))      # parse sheet_name - 0 i.e. 1st sheet
+        df_attachments.append(pd.ExcelFile(download_mail_dir + file).parse(0))      # parse sheet_name - 0 i.e. 1st sheet
 
 # define `df1` i.e. from downloaded mail attachments (in excel format)
 df1 = df_attachments[0]
 # print(df1.head())
 
 # define `df2` i.e. output
-df2 = pd.ExcelFile("./output/Attachment_1564702282.xlsx").parse(0)              # parse sheet_name - 0 i.e. 1st sheet
+df2 = pd.ExcelFile(output_file).parse(0)              # parse sheet_name - 0 i.e. 1st sheet
 # print(df2)
 ```
 * Create columns list `col_1` & `col_2`
@@ -101,7 +101,7 @@ for c in col_2:
 * Display the output of `df2` into a separate excel
 ```py
 # print the `df2` (w/o index) into already present excel file 
-df2.to_excel("./output/Attachment_1564702282.xlsx", index= False)
+df2.to_excel(output_file, index= False)
 ```
 
 ## Execution
