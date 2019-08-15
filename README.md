@@ -25,6 +25,7 @@ import pandas as pd
 from input import *
 ```
 * Download mail attachments for subject (== "test")
+> NOTE: Microsoft Outlook should be installed beforehand. If logged-in already, then the execution will happen automatically w/o error, otherwise, a small dialog will ask for user credentials.
 ```py
 outlook = win32com.client.Dispatch("Outlook.Application").GetNamespace("MAPI")
 inbox = outlook.GetDefaultFolder(6) # "6" refers to the index of a folder - in this case the inbox. You can change that number to reference
